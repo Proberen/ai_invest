@@ -1,4 +1,4 @@
-package conf
+package config
 
 import (
 	"fmt"
@@ -10,7 +10,6 @@ import (
 )
 
 var (
-	TokenConfig *Token
 	configMutex sync.RWMutex // 添加读写锁保证线程安全
 )
 
@@ -61,19 +60,12 @@ func loadConfig(v *viper.Viper) error {
 	// 使用写锁更新配置
 	configMutex.Lock()
 	defer configMutex.Unlock()
-	TokenConfig = newConfig
 
+	//长桥配置
 	os.Setenv("LONGPORT_APP_KEY", newConfig.LongBridge.AppKey)
 	os.Setenv("LONGPORT_APP_SECRET", newConfig.LongBridge.AppSecret)
 	os.Setenv("LONGPORT_ACCESS_TOKEN", newConfig.LongBridge.AccessToken)
 	os.Setenv("LONGPORT_REGION", newConfig.LongBridge.Region)
 
 	return nil
-}
-
-// GetConfigToken 安全获取配置的封装方法
-func GetConfigToken() *Token {
-	configMutex.RLock()
-	defer configMutex.RUnlock()
-	return TokenConfig
 }

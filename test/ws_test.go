@@ -1,7 +1,7 @@
 package test
 
 import (
-	"ai_invest/conf"
+	"ai_invest/conf/config"
 	"ai_invest/conf/logs"
 	"ai_invest/container"
 	"context"
@@ -11,7 +11,7 @@ import (
 )
 
 func TestName(t *testing.T) {
-	conf.InitConfig()
+	config.InitConfig()
 	c, _ := container.Init()
 	logs.InitLogger()
 	ctx := context.Context(context.Background())
